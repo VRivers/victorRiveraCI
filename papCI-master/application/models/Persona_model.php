@@ -43,32 +43,39 @@ class Persona_model extends CI_Model
                 $odia->aficion = $aficion;
                 R::store($odia);
             }
-        } else {
+        } 
+        else {
             $e = ($nombre == null ? new Exception("nulo") : new Exception("duplicado"));
             throw $e;
         }
     }
-
+    
+    
+    
     public function registrarPersona($nombre, $pwd, $idPaisReside) {
+        
         $ok = ($nombre != null && $idPaisReside != null && 
             R::findOne('persona','nombre=?',[$nombre])==null);
 
         if ($ok) {
             $persona = R::dispense('persona');
-            
             $paisResidencia = R::load('pais', $idPaisReside);
-            
             $persona->nombre = $nombre;
             $persona->pwd = password_hash($pwd,PASSWORD_DEFAULT);
             $persona->reside = $paisResidencia;
             
             R::store($persona);
             
-        } else {
+        } 
+        else {
             $e = (R::findOne('persona','nombre=?',[$nombre])!=null? new Exception("Duplicado") : new Exception("valores nulos"));
             throw $e;
         }
     }
+    
+    
+    
+    //UPDATE DE LOS DATOS DE PERSONA
     public function actualizarPersona($id, $nombre, $idPaisNace, $idPaisReside, $idsAficionGusta, $idsAficionOdia)
     {
         $ok = ($nombre != null && $idPaisNace != null && $idPaisReside != null);
@@ -101,6 +108,8 @@ class Persona_model extends CI_Model
             throw $e;
         }
     }
+    
+    
 
     public function verificarLogin($nombre,$pwd) {
         $usuario = R::findOne('persona','nombre=?',[$nombre]);

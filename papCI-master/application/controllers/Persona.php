@@ -49,6 +49,7 @@ class Persona extends CI_Controller
         frame($this,'Persona/c',$data);
     }
 
+    
     public function cPost()
     {
         $this->load->model('persona_model');
