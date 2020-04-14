@@ -4,3 +4,4 @@ class Home extends CI_Controller {
         frame($this,'home/index');
     }
 }
+?>
