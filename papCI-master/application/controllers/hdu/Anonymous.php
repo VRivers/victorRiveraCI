@@ -3,6 +3,31 @@
 class Anonymous extends CI_Controller
 {
 
+    public function init()
+    {
+        $data['vacia'] = true;
+        $this->load->model('persona_model');
+        if (sizeof(R::inspect()) != 0) {
+            $data['vacia'] = false;
+        }
+        frame($this, '_hdu/anonymous/init', $data);
+    }
+
+    public function initPost()
+    {
+        $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : null;
+        $data['msg'] = 'Password incorrecta';
+        if ($pwd == null || password_verify($pwd, password_hash("admin", PASSWORD_DEFAULT))) {
+            R::nuke();
+            $this->load->model('persona_model');
+            $this->persona_model->c('admin', 'admin');
+            
+            $data['msg'] = "BD recreada";
+        }
+        frame($this, '_hdu/anonymous/initPost', $data);
+    }
+    
+
     public function registrar()
     {
         $this->load->model('pais_model');
@@ -41,23 +66,31 @@ class Anonymous extends CI_Controller
     public function loginPost()
     {
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
-        $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : null;
+        $password = isset($_POST['password']) ? $_POST['password'] : null;
         $this->load->model('persona_model');
         try {
-            $persona = $this->persona_model->verificarLogin($nombre, $pwd);
+            $persona = $this->persona_model->verificarLogin($nombre, $password);
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
             $_SESSION['persona'] = $persona;
             redirect(base_url());
         } catch (Exception $e) {
-            session_start();
-            $_SESSION['_msg']['texto'] = $e->getMessage();
-            $_SESSION['_msg']['uri'] = '';
-            redirect(base_url() . 'msg');
+            PRG($e->getMessage());
         }
     }
     
+    public function logout() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (isset($_SESSION['persona'])) {
+            unset($_SESSION['persona']);
+        }
+        session_destroy();
+        redirect(base_url());
+        
+    }
 }
 
 ?>
