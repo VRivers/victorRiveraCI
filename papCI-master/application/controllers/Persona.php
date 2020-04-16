@@ -49,13 +49,15 @@ class Persona extends CI_Controller
     {
         $loginname = isset($_POST['loginname']) ? $_POST['loginname'] : null;
         $password = isset($_POST['password']) ? $_POST['password'] : null;
+        $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
         $altura = isset($_POST['altura']) ? $_POST['altura'] : null;
+        $foto = isset($_FILES['foto']['name']) ? ($_FILES['foto']['name']) : null;
         $fechaNacimiento = isset($_POST['fechaNacimiento']) ? $_POST['fechaNacimiento'] : null;
         $pais = isset($_POST['pais']) ? $_POST['pais'] : null;
        
         try {
             $this->load->model('persona_model');
-            $id = $this->persona_model->c($loginname, $password, $altura, $fechaNacimiento, $pais);
+            $id = $this->persona_model->c($loginname, $password,$nombre, $altura, $fechaNacimiento, $pais, $foto);
 
             PRG('Usuario creado correctamente.', 'login', 'success');
         } catch (Exception $e) {

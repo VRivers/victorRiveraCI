@@ -12,6 +12,10 @@
 	<input id="id-pwd" type="password" name="password" required="required"/>
 	<br/>
 	
+	<label for="id-nombre">Nombre</label>
+	<input id="id-nombre" type="text" name="nombre" required="required"/>
+	<br/>
+	
 	<label for="id-altura">Altura (en cm)</label>
 	<input id="id-altura" type="number" name="altura" required="required" min="0" max="400" value="175" />
 	<br/>
@@ -21,12 +25,10 @@
 	<br/>
 	
 	<label for="id-foto">Foto</label>
-	<input id="id-foto" type="file" name="persona-X"/>
-	<!-- No se como se hace -->
+	<input id="id-foto" type="file" name="foto"/>
 	
-	<label for="id-foto">Pais</label>
-	
-	<select id="id-foto" name="pais">
+	<label for="id-pais">Pais</label>
+	<select id="id-pais" name="pais">
 		<option selected="selected" value="">----</option>
 	</select>
 	<br/>

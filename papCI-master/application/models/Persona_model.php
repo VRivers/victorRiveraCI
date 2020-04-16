@@ -18,7 +18,7 @@ class Persona_model extends CI_Model
         return R::findAll('persona');
     }
 
-    public function c($loginname, $password, $altura, $fechaNacimiento, $pais)
+    public function c($loginname, $password, $nombre, $altura, $fechaNacimiento, $pais, $foto)
     {
         if ( $loginname == null || $password == null) {
             throw new Exception("Loginname, nombre o password nulos");
@@ -33,10 +33,16 @@ class Persona_model extends CI_Model
         $persona->loginname = $loginname;
         $persona->password = password_hash($password, PASSWORD_BCRYPT);
         $persona->altura = $altura;
+        $persona->nombre = $nombre;
         $persona->fechaNacimiento = $fechaNacimiento;
         $persona->pais = $pais;
         
+       
+        
         return R::store($persona);
+        
+        //ALMACENAR IMAGEN EN CARPETA UPLOAD
+        move_uploaded_file($_FILES['image']['tmp_name'], "papCI-master/assets/img/upload/$foto");
     }
 
     public function crearPersona($nombre, $pwd, $idPaisNace, $idPaisReside, $idsAficionGusta, $idsAficionOdia)
