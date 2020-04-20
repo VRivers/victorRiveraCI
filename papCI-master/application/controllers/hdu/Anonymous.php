@@ -20,7 +20,7 @@ class Anonymous extends CI_Controller
         if ($pwd == null || password_verify($pwd, password_hash("admin", PASSWORD_DEFAULT))) {
             R::nuke();
             $this->load->model('persona_model');
-            $this->persona_model->c('admin', 'admin');
+            $this->persona_model->cAdmin('admin', 'admin');
             
             $data['msg'] = "BD recreada";
         }

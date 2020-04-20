@@ -51,15 +51,24 @@ class Persona extends CI_Controller
         $password = isset($_POST['password']) ? $_POST['password'] : null;
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
         $altura = isset($_POST['altura']) ? $_POST['altura'] : null;
-        $foto = isset($_FILES['foto']['name']) ? ($_FILES['foto']['name']) : null;
+        $foto = isset($_FILES['foto']) ? ($_FILES['foto']) : null;
         $fechaNacimiento = isset($_POST['fechaNacimiento']) ? $_POST['fechaNacimiento'] : null;
         $pais = isset($_POST['pais']) ? $_POST['pais'] : null;
        
         try {
+          
             $this->load->model('persona_model');
-            $id = $this->persona_model->c($loginname, $password,$nombre, $altura, $fechaNacimiento, $pais, $foto);
+            $id = $this->persona_model->c($loginname, $password,$nombre, $altura, $fechaNacimiento, $pais);
+            
+            if ($foto != null && $foto['tmp_name']!=null) {
+                $extension = explode('.', $foto['name'])[1];
+                $carpeta = "assets/img/upload/";
+                if (!copy($foto['tmp_name'], $carpeta . "persona-$id." . $extension)) {
+                    throw new Exception("Error al copiar la foto ". $foto['name']. " a ". $carpeta . "persona-$id." . $extension);
+                }
+            }
 
-            PRG('Usuario creado correctamente.', 'login', 'success');
+            PRG('Usuario creado correctamente.', 'home', 'success');
         } catch (Exception $e) {
             PRG($e->getMessage(), 'persona/c');
         }
