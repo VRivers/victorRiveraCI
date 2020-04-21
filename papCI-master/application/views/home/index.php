@@ -1,10 +1,8 @@
 <div class="container">
 	<h1>Aplicacion P.A.P Victor Rivera</h1>
-
 	<?php if ($rol == 'auth'):?>
     	<code>(vista de usuario)</code>
     	<br/>
-
     	<a href="<?= base_url()?>persona/r">
     		<button>Persona</button>
     	</a>
