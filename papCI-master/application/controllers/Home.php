@@ -8,6 +8,7 @@ class Home extends CI_Controller {
             $data['rol'] = ($persona->loginname == 'admin')? 'admin': 'auth';
         }
         frame($this,'home/index', $data);
+    
     }
 }
 ?>

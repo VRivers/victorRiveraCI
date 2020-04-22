@@ -25,7 +25,7 @@ class Persona_model extends CI_Model
         }
         
         if (R::findOne('persona', 'loginname=?', [$loginname]) != null) {
-            throw new Exception("Loginame duplicado");
+            throw new Exception("Loginname duplicado");
         }
         
         $persona = R::dispense('persona');
@@ -36,6 +36,8 @@ class Persona_model extends CI_Model
         $persona->nombre = $nombre;
         $persona->fechaNacimiento = $fechaNacimiento;
         $persona->pais = $pais;
+        
+        
        
         return R::store($persona);
         
@@ -60,7 +62,7 @@ class Persona_model extends CI_Model
         
     }
 
-    public function crearPersona($nombre, $pwd, $idPaisNace, $idPaisReside, $idsAficionGusta, $idsAficionOdia)
+   /* public function crearPersona($nombre, $pwd, $idPaisNace, $idPaisReside, $idsAficionGusta, $idsAficionOdia)
     {
         $ok = ($nombre != null && $idPaisNace != null && $idPaisReside != null);
         if ($ok) {
@@ -94,32 +96,9 @@ class Persona_model extends CI_Model
             $e = ($nombre == null ? new Exception("nulo") : new Exception("duplicado"));
             throw $e;
         }
-    }
+    }*/
 
-    public function registrarPersona($nombre, $pwd, $idPaisReside)
-    {
-        $ok = ($nombre != null && $idPaisReside != null && R::findOne('persona', 'nombre=?', [
-            $nombre
-        ]) == null);
-
-        if ($ok) {
-            $persona = R::dispense('persona');
-
-            $paisResidencia = R::load('pais', $idPaisReside);
-
-            $persona->nombre = $nombre;
-            $persona->pwd = password_hash($pwd, PASSWORD_DEFAULT);
-            $persona->reside = $paisResidencia;
-
-            R::store($persona);
-        } else {
-            $e = (R::findOne('persona', 'nombre=?', [
-                $nombre
-            ]) != null ? new Exception("Duplicado") : new Exception("valores nulos"));
-            throw $e;
-        }
-    }
-
+/*
     public function actualizarPersona($id, $nombre, $idPaisNace, $idPaisReside, $idsAficionGusta, $idsAficionOdia)
     {
         $ok = ($nombre != null && $idPaisNace != null && $idPaisReside != null);
@@ -152,6 +131,7 @@ class Persona_model extends CI_Model
             throw $e;
         }
     }
+    */
 
     public function verificarLogin($nombre, $pwd)
     {

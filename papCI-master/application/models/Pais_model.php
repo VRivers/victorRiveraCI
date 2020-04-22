@@ -8,8 +8,22 @@ class Pais_model extends CI_Model
 
     public function getPaises()
     {
-        return R::findAll('pais');
+        return R::findAll('pais','ORDER BY nombre ASC');
     }
+    public function getPaisById($id)
+    {
+        return R::load('pais', $id);
+    }
+    
+    public function numeroHabitantesPorPais($nombre){
+        
+        $pais = R::findOne('pais','nombre=?',[$nombre]);
+        $numeroHabitantes = R::count('persona', 'pais=?',[$pais->nombre]);
+        $pais->numero_habitantes = $numeroHabitantes;
+        R::store($pais);
+        
+    }
+    
 
     public function crearPais($nombre)
     {
@@ -18,14 +32,30 @@ class Pais_model extends CI_Model
         if ($ok) {
             $pais = R::dispense('pais');
             $pais->nombre = $nombre;
+            $pais ->numero_habitantes = 0;
             $pais->alias('nace')->xownPersonaList = [];
             $pais->alias('reside')->xownPersonaList = [];
             R::store($pais);
         }
         else {
-           $e = ($nombre==null?new Exception("nulo"):new Exception("duplicado"));
+           $e = ($nombre==null?new Exception("nulo"):new Exception("Nombre de pais ya registrado, escoge otro"));
            throw $e;
         }
     }
+    
+    public function actualizarPais($id, $nombre)
+    {
+        $pais = R::findOne('pais','nombre=?',[$nombre]);
+        if ($nombre != null && $pais == null) {
+            $pais = R::load('pais', $id);
+            $pais->nombre = $nombre;
+            R::store($pais);
+        } else {
+            $e = ($nombre == null ? new Exception("nulo") : new Exception("Nombre de pais ya registrado, escoge otro"));
+            throw $e;
+        }
+    }
+    
+    
 }
 ?>

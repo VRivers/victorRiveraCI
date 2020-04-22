@@ -31,30 +31,36 @@ class Anonymous extends CI_Controller
     public function registrar()
     {
         $this->load->model('pais_model');
-        $this->load->model('aficion_model');
-        $data['paises'] = $this->pais_model->getPaises();
-        frame($this, '_hdu/anonymous/registrar', $data);
+        $datos['paises'] = $this->pais_model->getPaises();
+        frame($this, '_hdu/anonymous/registrar', $datos);
     }
-
+    
     public function registrarPost()
     {
-        $this->load->model('persona_model');
-
+        $loginname = isset($_POST['loginname']) ? $_POST['loginname'] : null;
+        $password = isset($_POST['password']) ? $_POST['password'] : null;
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
-        $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : null;
-        $idPaisReside = isset($_POST['idPaisReside']) ? $_POST['idPaisReside'] : null;
-
+        $altura = isset($_POST['altura']) ? $_POST['altura'] : null;
+        $foto = isset($_FILES['foto']) ? ($_FILES['foto']) : null;
+        $fechaNacimiento = isset($_POST['fechaNacimiento']) ? $_POST['fechaNacimiento'] : null;
+        $pais = isset($_POST['pais']) ? $_POST['pais'] : null;
+        
         try {
-            $this->persona_model->registrarPersona($nombre, $pwd, $idPaisReside);
-            session_start();
-            $_SESSION['_msg']['texto'] = "Usuario registrado con éxito";
-            $_SESSION['_msg']['uri'] = '';
-            redirect(base_url() . 'msg');
+            
+            $this->load->model('persona_model');
+            $id = $this->persona_model->c($loginname, $password,$nombre, $altura, $fechaNacimiento, $pais);
+            
+            if ($foto != null && $foto['tmp_name']!=null) {
+                $extension = explode('.', $foto['name'])[1];
+                $carpeta = "assets/img/upload/";
+                if (!copy($foto['tmp_name'], $carpeta . "persona-$id." . $extension)) {
+                    throw new Exception("Error al copiar la foto ". $foto['name']. " a ". $carpeta . "persona-$id." . $extension);
+                }
+            }
+            
+            PRG('Usuario creado correctamente.', 'home', 'success');
         } catch (Exception $e) {
-            session_start();
-            $_SESSION['_msg']['texto'] = $e->getMessage();
-            $_SESSION['_msg']['uri'] = 'persona/c';
-            redirect(base_url() . 'msg');
+            PRG($e->getMessage(), 'hdu/anonymous/registrar');
         }
     }
 

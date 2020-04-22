@@ -19,8 +19,9 @@ class Pais extends CI_Controller
     {
         $this->load->model('pais_model');
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
+        $nHabitantes = isset($_POST['nHabitantes']) ? $_POST['nHabitantes'] : null;
         try {
-            $this->pais_model->crearPais($nombre);
+            $this->pais_model->crearPais($nombre, $nHabitantes);
             redirect(base_url() . 'pais/r');
         }
         catch (Exception $e) {
@@ -35,7 +36,39 @@ class Pais extends CI_Controller
     {
         $this->load->model('pais_model');
         $datos['paises'] = $this->pais_model->getPaises();
+        foreach ($datos['paises'] as $pais){
+            $this->pais_model->numeroHabitantesPorPais($pais->nombre);
+        }       
         frame($this,'pais/r', $datos);
     }
+    
+    public function u()
+    {
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        $this->load->model('pais_model');
+        $data['pais'] = $this->pais_model->getPaisById($id);
+        frame($this, 'pais/u', $data);
+
+
+    }
+    
+    public function uPost() {
+        $this->load->model('pais_model');
+        
+        $id = isset($_POST['id']) ? $_POST['id'] : null;
+        $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
+        
+        try {
+            $this->pais_model->actualizarPais($id, $nombre);
+            redirect(base_url() . 'pais/r');
+        } catch (Exception $e) {
+            session_start();
+            $_SESSION['_msg']['texto'] = $e->getMessage();
+            $_SESSION['_msg']['uri'] = 'pais/c';
+            redirect(base_url() . 'msg');
+        }
+    }
+    
+    
 }
 ?>
