@@ -17,8 +17,9 @@ class Persona_model extends CI_Model
     {
         return R::findAll('persona');
     }
+    
 
-    public function c($loginname, $password, $nombre, $altura, $fechaNacimiento, $pais)
+    public function c($loginname, $password, $nombre, $altura, $fechaNacimiento, $pais, $extFoto)
     {
         if ( $loginname == null || $password == null) {
             throw new Exception("Loginname, nombre o password nulos");
@@ -27,40 +28,30 @@ class Persona_model extends CI_Model
         if (R::findOne('persona', 'loginname=?', [$loginname]) != null) {
             throw new Exception("Loginname duplicado");
         }
-        
+        //CREACION DE PERSONA
         $persona = R::dispense('persona');
-       
         $persona->loginname = $loginname;
         $persona->password = password_hash($password, PASSWORD_BCRYPT);
+
+        if ($loginname != "admin") {
         $persona->altura = $altura;
         $persona->nombre = $nombre;
         $persona->fechaNacimiento = $fechaNacimiento;
-        $persona->pais = $pais;
+        $persona->extension_Foto= $extFoto;
+        if ($pais!=null) $persona->nace= $pais;
+        //CREACIÓN DE NUEVA VENTA Y SU ASOCIACIÓN CON LA PERSONA (EN CASO DE NO SER ADMIN)
+        $venta = R::dispense('venta');
+        $venta->fecha = date('Y-m-d H:i:s');
+        $venta -> ventaencurso = $persona;
+        R::store($venta);
         
+        $persona->ventaencurso=$venta;
+        }
         
-       
         return R::store($persona);
         
     }
     
-   public function cAdmin($loginname, $password)
-    {
-        if ( $loginname == null || $password == null) {
-            throw new Exception("Loginname, nombre o password nulos");
-        }
-        
-        if (R::findOne('persona', 'loginname=?', [$loginname]) != null) {
-            throw new Exception("Loginame duplicado");
-        }
-        
-        $persona = R::dispense('persona');
-        
-        $persona->loginname = $loginname;
-        $persona->password = password_hash($password, PASSWORD_BCRYPT);
-        
-        return R::store($persona);
-        
-    }
 
    /* public function crearPersona($nombre, $pwd, $idPaisNace, $idPaisReside, $idsAficionGusta, $idsAficionOdia)
     {

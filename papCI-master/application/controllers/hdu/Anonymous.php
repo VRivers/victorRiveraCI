@@ -20,7 +20,7 @@ class Anonymous extends CI_Controller
         if ($pwd == null || password_verify($pwd, password_hash("admin", PASSWORD_DEFAULT))) {
             R::nuke();
             $this->load->model('persona_model');
-            $this->persona_model->cAdmin('admin', 'admin');
+            $this->persona_model->c('admin', 'admin',null,null,null,null, null);
             
             $data['msg'] = "BD recreada";
         }
@@ -28,6 +28,9 @@ class Anonymous extends CI_Controller
     }
     
 
+//========================================================================================================================
+//OPERACIONES DE REGISTRO
+    
     public function registrar()
     {
         $this->load->model('pais_model');
@@ -46,24 +49,42 @@ class Anonymous extends CI_Controller
         $pais = isset($_POST['pais']) ? $_POST['pais'] : null;
         
         try {
-            
-            $this->load->model('persona_model');
-            $id = $this->persona_model->c($loginname, $password,$nombre, $altura, $fechaNacimiento, $pais);
-            
-            if ($foto != null && $foto['tmp_name']!=null) {
-                $extension = explode('.', $foto['name'])[1];
-                $carpeta = "assets/img/upload/";
-                if (!copy($foto['tmp_name'], $carpeta . "persona-$id." . $extension)) {
-                    throw new Exception("Error al copiar la foto ". $foto['name']. " a ". $carpeta . "persona-$id." . $extension);
-                }
+            $extFoto =null;
+            if ($foto != null && $foto['error']==UPLOAD_ERR_OK) {
+                $name_and_ext = explode('.', $foto['name']);
+                $extFoto = $name_and_ext[sizeof($name_and_ext)-1];
+               
             }
             
+            
+            $this->load->model('persona_model');
+            $this->load->model('pais_model');
+            
+            //TRATAMIENTO PAIS
+            if ($pais == 0) {$id = $this->persona_model->c($loginname, $password,$nombre, $altura, $fechaNacimiento, null, $extFoto);}
+            
+            else {
+              $id = $this->persona_model->c($loginname, $password,$nombre, $altura, $fechaNacimiento, $this->pais_model->getPaisById($pais), $extFoto);}
+            
+            if ($extFoto != null) {
+                
+                $file_name = 'persona' . '-'. $id . '.'. $extFoto;
+                $carpeta = "assets/img/upload/";
+                
+                copy($foto['tmp_name'], $carpeta . $file_name);
+                  
+                }
+                 
             PRG('Usuario creado correctamente.', 'home', 'success');
         } catch (Exception $e) {
             PRG($e->getMessage(), 'hdu/anonymous/registrar');
         }
-    }
+        }
+    
+    
+//=========================================================================================================================
 
+    
     public function login()
     {
         frame($this, '_hdu/anonymous/login');

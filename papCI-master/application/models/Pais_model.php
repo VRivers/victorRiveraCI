@@ -15,14 +15,14 @@ class Pais_model extends CI_Model
         return R::load('pais', $id);
     }
     
-    public function numeroHabitantesPorPais($nombre){
+//     public function numeroHabitantesPorPais($nombre){
         
-        $pais = R::findOne('pais','nombre=?',[$nombre]);
-        $numeroHabitantes = R::count('persona', 'pais=?',[$pais->nombre]);
-        $pais->numero_habitantes = $numeroHabitantes;
-        R::store($pais);
+//         $pais = R::findOne('pais','nombre=?',[$nombre]);
+//         $numeroHabitantes = R::count('persona', 'pais_id=?',[$pais->id]);
+//         $pais->numero_habitantes = $numeroHabitantes;
+//         R::store($pais);
         
-    }
+//     }
     
 
     public function crearPais($nombre)
@@ -32,9 +32,6 @@ class Pais_model extends CI_Model
         if ($ok) {
             $pais = R::dispense('pais');
             $pais->nombre = $nombre;
-            $pais ->numero_habitantes = 0;
-            $pais->alias('nace')->xownPersonaList = [];
-            $pais->alias('reside')->xownPersonaList = [];
             R::store($pais);
         }
         else {

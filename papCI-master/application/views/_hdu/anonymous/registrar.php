@@ -24,17 +24,44 @@
 	<input id="id-fnac" type="date" name="fechaNacimiento" required="required" value="2000-02-29"/>
 	<br/>
 	
-	<label for="id-foto">Foto</label>
-	<input id="id-foto" type="file" name="foto"/>
-	
 	<label for="id-pais">Pais</label>
+	
+
 	<select id="id-pais" name="pais">
-		<option selected="selected" value="">---</option>
+		<option selected="selected" value=0>---</option>
 		<?php foreach ($paises as $pais):?>
-		<option value="<?= $pais->nombre?>"><?= $pais->nombre?></option>
+		<option value="<?=$pais->id?>"><?= $pais->nombre?></option>
 		<?php endforeach;?>
 	</select>
 	<br/>
+	
+	<!-- JAVASCRIPT PARA VISUALIZAR LA FOTO -->
+	<script>
+	$(window).on("load", (function (){
+		$(function() {
+			$("#id-foto").change(function(e) {addImage(e);});
+
+		function addImage (e){
+			var file = e.target.files[0];
+			var imageType = /image.*/;
+
+			if (!file.type.match(imageType)) return;
+
+			var reader = new FileReader();
+			reader.onload = fileOnLoad;
+			reader.readAsDataURL(file);
+			
+		}
+
+		function fileOnLoad(e) {
+			var result=e.target.result;
+			$('#id-out-foto').attr("src",result);
+		}});}));
+	</script>
+	
+	<label for="id-foto">Foto</label>
+	<input id="id-foto" type="file" name="foto"/><br>
+	<img class="offset-1 col-2" id="id-out-foto" width="10%" height="10%" src="" alt=""/><br><br>
 	
 	<input type="submit"/>
 </form>

@@ -2,8 +2,12 @@
 
 class Pais extends CI_Controller
 {
-
+    
     public function dPost() {
+        
+        if(!isRolOK("admin")){
+            PRG("Rol inadecuado");
+        }
         $id = isset($_POST['id']) ? $_POST['id'] : null;
         $this->load->model('pais_model');
         $this->pais_model->borrarPais($id);
@@ -12,11 +16,17 @@ class Pais extends CI_Controller
     
     public function c()
     {
+        if(!isRolOK("admin")){
+            PRG("Rol inadecuado");
+        }
         frame($this,'pais/c');
     }
 
     public function cPost()
     {
+        if(!isRolOK("admin")){
+            PRG("Rol inadecuado");
+        }
         $this->load->model('pais_model');
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
         $nHabitantes = isset($_POST['nHabitantes']) ? $_POST['nHabitantes'] : null;
@@ -34,16 +44,23 @@ class Pais extends CI_Controller
 
     public function r()
     {
+        if(!isRolOK("admin")){
+            PRG("Rol inadecuado");
+        }
         $this->load->model('pais_model');
         $datos['paises'] = $this->pais_model->getPaises();
-        foreach ($datos['paises'] as $pais){
-            $this->pais_model->numeroHabitantesPorPais($pais->nombre);
-        }       
+//         foreach ($datos['paises'] as $pais){
+//             $this->pais_model->numeroHabitantesPorPais($pais->nombre);
+//         }    
+        
         frame($this,'pais/r', $datos);
     }
     
     public function u()
     {
+        if(!isRolOK("admin")){
+            PRG("Rol inadecuado");
+        }
         $id = isset($_GET['id']) ? $_GET['id'] : null;
         $this->load->model('pais_model');
         $data['pais'] = $this->pais_model->getPaisById($id);
@@ -53,6 +70,10 @@ class Pais extends CI_Controller
     }
     
     public function uPost() {
+        
+        if(!isRolOK("admin")){
+            PRG("Rol inadecuado");
+        }
         $this->load->model('pais_model');
         
         $id = isset($_POST['id']) ? $_POST['id'] : null;
