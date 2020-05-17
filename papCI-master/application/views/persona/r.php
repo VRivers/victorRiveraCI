@@ -6,8 +6,7 @@
 <a href="<?=base_url()?>"><button>Volver</button></a>
 <table border="1">
 	<tr>
-		<th>Nombre</th>
-		<th>Contraseña</th>
+		<th>Loginname</th>
 		<th>País nacimiento</th>
 		<th>País residencia</th>
 		<th>Af.gustan</th>
@@ -17,8 +16,7 @@
 	
 	<?php foreach ($personas as $persona): ?>
 		<tr>
-		<td><?= $persona->nombre?></td>
-		<td><?= $persona->pwd?></td>
+		<td><?= $persona->loginname?></td>
 		<td><?= $persona->nace!=null?$persona->nace->nombre:'--'?></td>
 		<td><?= $persona->reside!=null?$persona->reside->nombre:'--'?></td>
 		<td>

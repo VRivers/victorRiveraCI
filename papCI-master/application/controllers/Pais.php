@@ -48,11 +48,7 @@ class Pais extends CI_Controller
             PRG("Rol inadecuado");
         }
         $this->load->model('pais_model');
-        $datos['paises'] = $this->pais_model->getPaises();
-//         foreach ($datos['paises'] as $pais){
-//             $this->pais_model->numeroHabitantesPorPais($pais->nombre);
-//         }    
-        
+        $datos['paises'] = $this->pais_model->getPaises();   
         frame($this,'pais/r', $datos);
     }
     
@@ -85,7 +81,7 @@ class Pais extends CI_Controller
         } catch (Exception $e) {
             session_start();
             $_SESSION['_msg']['texto'] = $e->getMessage();
-            $_SESSION['_msg']['uri'] = 'pais/c';
+            $_SESSION['_msg']['uri'] = 'pais/r';
             redirect(base_url() . 'msg');
         }
     }

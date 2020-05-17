@@ -44,10 +44,14 @@ class Pais_model extends CI_Model
     {
         $pais = R::findOne('pais','nombre=?',[$nombre]);
         if ($nombre != null && $pais == null) {
+       
             $pais = R::load('pais', $id);
             $pais->nombre = $nombre;
             R::store($pais);
-        } else {
+   
+        }
+        else if ($nombre != null && $pais =! null) {}
+        else {
             $e = ($nombre == null ? new Exception("nulo") : new Exception("Nombre de pais ya registrado, escoge otro"));
             throw $e;
         }

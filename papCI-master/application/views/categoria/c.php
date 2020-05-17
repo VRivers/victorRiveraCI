@@ -4,7 +4,6 @@
 		Nombre
 		<input type="text" name="nombre" autofocus="autofocus"/>
 		<br/>
-		
 		<input type="submit" />
 		<br/>
 		
