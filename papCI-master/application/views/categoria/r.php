@@ -15,8 +15,9 @@
 			<?php foreach ($categorias as $categoria):?>
 			<tr>
 				<td><?=$categoria->nombre?></td>
-				<td><code>Pendiente de creacion de producto</code></td>
+				<td><?= count($categoria->ownProductoList)?></td>
 				<td>
+					<?php if(count($categoria->ownProductoList)==0):?>
         				<form action="<?=base_url()?>categoria/dPost" method="post">
         					<input type="hidden" name="id" value="<?=$categoria->id?>">
         					<button onclick="submit()">
@@ -24,7 +25,7 @@
         							width="20">
         					</button>
         				</form>
-  
+  					<?php endif;?>
         				<form action="<?=base_url()?>categoria/u" method="get">
         					<input type="hidden" name="id" value="<?=$categoria->id?>">
         					<button onclick="submit()">

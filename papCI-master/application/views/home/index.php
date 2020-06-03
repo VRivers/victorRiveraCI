@@ -9,6 +9,9 @@
 	<?php elseif ($rol == 'admin'): ?>
     	<h2>Bienvenido <b>Administrador</b></h2>
     	<br>
+    	<a href="<?=base_url()?>persona/r">
+    		<button>Persona</button>
+    	</a>
     	<a href="<?=base_url()?>pais/r">
     		<button>Pais</button>
     	</a>

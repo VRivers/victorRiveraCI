@@ -1,7 +1,7 @@
 <?php
 class Categoria_model extends CI_Model {
     
-    public function getCategoria() {
+    public function getCategorias() {
         return  R::findAll('categoria','ORDER BY nombre ASC');
     }
     

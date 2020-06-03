@@ -2,29 +2,19 @@
 
 class Pais_model extends CI_Model
 {
-    public function borrarPais($id) {
-        R::trash(R::load('pais',$id));
-    }
-
+     
     public function getPaises()
     {
         return R::findAll('pais','ORDER BY nombre ASC');
     }
+    
+    
     public function getPaisById($id)
     {
         return R::load('pais', $id);
     }
     
-//     public function numeroHabitantesPorPais($nombre){
-        
-//         $pais = R::findOne('pais','nombre=?',[$nombre]);
-//         $numeroHabitantes = R::count('persona', 'pais_id=?',[$pais->id]);
-//         $pais->numero_habitantes = $numeroHabitantes;
-//         R::store($pais);
-        
-//     }
     
-
     public function crearPais($nombre)
     {
         $pais = R::findOne('pais','nombre=?',[$nombre]);
@@ -39,6 +29,7 @@ class Pais_model extends CI_Model
            throw $e;
         }
     }
+    
     
     public function actualizarPais($id, $nombre)
     {
@@ -56,6 +47,12 @@ class Pais_model extends CI_Model
             throw $e;
         }
     }
+    
+    
+    public function borrarPais($id) {
+        R::trash(R::load('pais',$id));
+    }
+    
     
     
 }

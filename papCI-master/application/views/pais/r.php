@@ -1,8 +1,7 @@
 
 <div class="container">
 
-<!-- USAR ESTE M…TODO EN CASO DE FALLO EN HELPER "ISROLOK" -->
-<?php if ($_SESSION['persona']->loginname=='admin'):?>
+
 
 	<h1>Lista de pa√≠ses</h1>
 
@@ -22,7 +21,6 @@
 			
 			<td><?= sizeof($pais->alias('nace')->ownPersonaList)?></td>
 			
-			
 			<td>
 			<?php if(sizeof($pais->alias('nace')->ownPersonaList)==0):?>
 				<form action="<?=base_url()?>pais/dPost" method="post">
@@ -33,8 +31,7 @@
 					</button>
 				</form>
 			<?php endif;?>
-			
-				
+	
 				<form action="<?=base_url()?>pais/u" method="get">
 					<input type="hidden" name="id" value="<?=$pais->id?>">
 					<button onclick="submit()">
@@ -46,9 +43,7 @@
 		</tr>
 	<?php endforeach;?>
 </table>
-<!-- <?php else: ?> 
-<!-- <h1>Funcionalidad no disponible</h1> -->
-// <?php endif;?>
+
 </div>
 
 

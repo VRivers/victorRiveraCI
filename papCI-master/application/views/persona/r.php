@@ -5,30 +5,24 @@
 <a href="<?=base_url()?>persona/c"><button>Nueva</button></a>
 <a href="<?=base_url()?>"><button>Volver</button></a>
 <table border="1">
-	<tr>
-		<th>Loginname</th>
-		<th>País nacimiento</th>
-		<th>País residencia</th>
-		<th>Af.gustan</th>
-		<th>Af.odia</th>
-		<th>Acción</th>
-	</tr>
+		<tr>
+			<th>Foto</th>
+			<th>Loginname</th>
+			<th>Pais de Nacimiento</th>
+			<th>Fecha de Nacimiento</th>
+			<th>Altura</th>
+			<th>Acción</th>
+		</tr>
+
 	
 	<?php foreach ($personas as $persona): ?>
 		<tr>
+		
+		<td>Foto</td>
 		<td><?= $persona->loginname?></td>
 		<td><?= $persona->nace!=null?$persona->nace->nombre:'--'?></td>
-		<td><?= $persona->reside!=null?$persona->reside->nombre:'--'?></td>
-		<td>
-				<?php foreach ($persona->ownGustaList as $gusta): ?>
-					<?= $gusta->aficion!=null?$gusta->aficion->nombre:''?> 
-				<?php endforeach;?>
-			</td>
-		<td>
-				<?php foreach ($persona->ownOdiaList as $odia): ?>
-					<?= $odia->aficion!=null?$odia->aficion->nombre:''?> 
-				<?php endforeach;?>
-			</td>
+		<td><?= $persona->fechaNacimiento?></td>
+		<td><?= $persona->altura?></td>
 		<td>
 			<form action="<?=base_url()?>persona/dPost" method="post">
 				<input type="hidden" name="id" value="<?=$persona->id?>">

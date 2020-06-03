@@ -45,7 +45,7 @@ class Categoria extends CI_Controller {
          }
          //MODELO
          $this->load->model('categoria_model');
-         $data['categorias'] = $this->categoria_model->getCategoria();
+         $data['categorias'] = $this->categoria_model->getCategorias();
          
          //VISTA
          frame($this,'categoria/r',$data);

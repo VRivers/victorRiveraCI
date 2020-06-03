@@ -28,7 +28,7 @@
 	
 
 	<select id="id-pais" name="pais">
-		<option selected="selected" value=0>---</option>
+		<option selected="selected" value=-1>---</option>
 		<?php foreach ($paises as $pais):?>
 		<option value="<?=$pais->id?>"><?= $pais->nombre?></option>
 		<?php endforeach;?>
@@ -63,7 +63,7 @@
 	<input id="id-foto" type="file" name="foto"/><br>
 	<img class="offset-1 col-2" id="id-out-foto" width="10%" height="10%" src="" alt=""/><br><br>
 	
-	<input type="submit"/>
+	<input type="submit" value="Registrar"/>
 </form>
 
 </div>

@@ -60,11 +60,16 @@ class Anonymous extends CI_Controller
             $this->load->model('persona_model');
             $this->load->model('pais_model');
             
-            //TRATAMIENTO PAIS
-            if ($pais == 0) {$id = $this->persona_model->c($loginname, $password,$nombre, $altura, $fechaNacimiento, null, $extFoto);}
             
-            else {
-              $id = $this->persona_model->c($loginname, $password,$nombre, $altura, $fechaNacimiento, $this->pais_model->getPaisById($pais), $extFoto);}
+            if ($pais == -1) {throw new Exception("Pais no especificado");}
+  
+            //TRATAMIENTO PAIS
+            try {
+              $id = $this->persona_model->c($loginname, $password,$nombre, $altura, $fechaNacimiento, $this->pais_model->getPaisById($pais), $extFoto);
+            }
+            catch (Exception $e){
+                throw new Exception("Usuario ya existente");    
+            }
             
             if ($extFoto != null) {
                 
@@ -83,7 +88,7 @@ class Anonymous extends CI_Controller
     
     
 //=========================================================================================================================
-
+//OPERACIONES DE LOGIN
     
     public function login()
     {
