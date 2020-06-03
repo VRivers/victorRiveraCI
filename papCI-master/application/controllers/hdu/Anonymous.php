@@ -20,7 +20,7 @@ class Anonymous extends CI_Controller
         if ($pwd == null || password_verify($pwd, password_hash("admin", PASSWORD_DEFAULT))) {
             R::nuke();
             $this->load->model('persona_model');
-            $this->persona_model->c('admin', 'admin',null,null,null,null, null);
+            $this->persona_model->c('Admin', 'admin',null,null,null,null, null);
             
             $data['msg'] = "BD recreada";
         }
@@ -74,7 +74,7 @@ class Anonymous extends CI_Controller
             if ($extFoto != null) {
                 
                 $file_name = 'persona' . '-'. $id . '.'. $extFoto;
-                $carpeta = "assets/img/upload/";
+                $carpeta = "assets/img/upload/persona/";
                 
                 copy($foto['tmp_name'], $carpeta . $file_name);
                   

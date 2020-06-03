@@ -33,7 +33,7 @@
 	<br/>
 	
 	<input type="hidden" name="id" value="<?=$persona->id?>"/>
-	<input type="submit" value="Registrar"/>
+	<input type="submit" value="Modificar"/>
 </form>
 
 </div>
