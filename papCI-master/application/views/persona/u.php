@@ -23,7 +23,7 @@
 	<label for="id-pais">Pais</label>
 	
 	<select id="id-pais" name="pais">
-		<option selected="selected" value="<?=$persona->id?>"><?=$persona->nace->nombre?></option>
+		<option selected="selected" value="<?=$persona->nace->id?>"><?=$persona->nace->nombre?></option>
 		<?php foreach ($paises as $pais):?>
     		<?php if ($pais->nombre != $persona->nace->nombre) :?>
     		<option value="<?=$pais->id?>"><?= $pais->nombre?></option>

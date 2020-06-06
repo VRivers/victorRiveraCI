@@ -34,6 +34,7 @@ class Persona extends CI_Controller
             PRG("Rol inadecuado");
         }
         $this->load->model('persona_model');
+        $this->load->model('pais_model');
         
         $id = isset($_POST['id']) ? $_POST['id']:null;
         $loginname = isset($_POST['loginname']) ? $_POST['loginname'] : null;
@@ -43,7 +44,7 @@ class Persona extends CI_Controller
         $pais = isset($_POST['pais']) ? $_POST['pais'] : null;
         
         try {
-            $this->persona_model->actualizarPersona($id, $loginname, $nombre, $altura, $fechaNacimiento, $pais);
+            $this->persona_model->actualizarPersona($id, $loginname, $nombre, $altura, $fechaNacimiento, $this->pais_model->getPaisById($pais));
             redirect(base_url() . 'persona/r');
         } catch (Exception $e) {
             session_start();

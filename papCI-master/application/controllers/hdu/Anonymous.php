@@ -65,7 +65,7 @@ class Anonymous extends CI_Controller
   
             //TRATAMIENTO PAIS
             try {
-              $id = $this->persona_model->c($loginname, $password,$nombre, $altura, $fechaNacimiento, $this->pais_model->getPaisById($pais), $extFoto);
+              $id = $this->persona_model->crearPersona($loginname, $password,$nombre, $altura, $fechaNacimiento, $this->pais_model->getPaisById($pais), $extFoto);
             }
             catch (Exception $e){
                 throw new Exception("Usuario ya existente");    
@@ -82,7 +82,7 @@ class Anonymous extends CI_Controller
                  
             PRG('Usuario creado correctamente.', 'home', 'success');
         } catch (Exception $e) {
-            PRG($e->getMessage(), 'hdu/anonymous/registrar');
+            PRG($e->getMessage(), '');
         }
         }
     

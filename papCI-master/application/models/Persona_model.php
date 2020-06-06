@@ -19,7 +19,7 @@ class Persona_model extends CI_Model
     }
     
 
-    public function c($loginname, $password, $nombre, $altura, $fechaNacimiento, $pais, $extFoto)
+    public function crearPersona($loginname, $password, $nombre, $altura, $fechaNacimiento, $pais, $extFoto)
     {
         if ( $loginname == null || $password == null) {
             throw new Exception("Loginname, nombre o password nulos");
@@ -57,30 +57,37 @@ class Persona_model extends CI_Model
     public function actualizarPersona($id,$loginname, $nombre, $altura, $fechaNacimiento, $pais)
     {
         $persona = R::findOne('persona','loginname=?',[$loginname]);
-        if ($loginname != null && $nombre != null && 
-            $fechaNacimiento != null) {
+        if ($persona == null) {
             
             $persona = R::load('persona', $id);
             $persona->loginname = $loginname;
             $persona->altura = $altura;
             $persona->nombre = $nombre;
             $persona->fechaNacimiento = $fechaNacimiento;
-            
+            $persona->nace = $pais;
             R::store($persona);
             
         }
-        else if ($nombre != null && $pais =! null) {}
+        
+        else if ($loginname == $persona->loginname && $id == $persona->id){
+
+            $persona = R::load('persona', $id);
+            $persona->altura = $altura;
+            $persona->nombre = $nombre;
+            $persona->fechaNacimiento = $fechaNacimiento;
+            $persona->nace = $pais;
+            R::store($persona);
+        }
         else {
-            $e = ($nombre == null ? new Exception("nulo") : new Exception("Nombre de pais ya registrado, escoge otro"));
+            $e = ($loginname == null ? new Exception("nulo") : new Exception("Nombre de persona ya registrado, escoge otro"));
             throw $e;
         }
     }
 
     public function verificarLogin($nombre, $pwd)
     {
-        $usuario = R::findOne('persona', 'loginname=?', [
-            $nombre
-        ]);
+        $usuario = R::findOne('persona', 'loginname=?', [$nombre]);
+        
         if ($usuario == null) {
             throw new Exception("Usuario o contraseña no correctas");
         }

@@ -6,12 +6,19 @@
 
 	<table class="table table-striped">
 		<tr>
+			<th>Foto</th>
 			<th>Nombre</th>
 			<th>Categoria</th>
 			<th>Acción</th>
 		</tr>
 			<?php foreach ($productos as $producto):?>
 			<tr>
+    			<?php if ($producto->extension_Foto != null):?>
+        		<td><img src="<?=base_url()?>/assets/img/upload/producto/producto-<?=$producto->id?>.<?=$producto->extension_Foto?>" height="80" width="80"></td>
+        		<?php else:?>
+        		<td><img src="<?=base_url()?>/assets/img/noimage.png" height="80" width="80"></td>
+        		<?php endif;?>
+        		
 				<td><?=$producto->nombre?></td>
 				<td><?=$producto->categoria->nombre?></td>
 				<td>

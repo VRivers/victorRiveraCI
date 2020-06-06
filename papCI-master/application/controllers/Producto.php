@@ -16,13 +16,22 @@ class producto extends CI_Controller {
         if(!isRolOK("admin")){
             PRG("Rol inadecuado");
         }
-        //MODELO
+   
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
         $stock = isset($_POST['stock']) ? $_POST['stock'] : null;
         $precio = isset($_POST['precio']) ? $_POST['precio'] : null;
         $categoria= isset($_POST['categoria']) ? $_POST['categoria'] : null;
+        $foto = isset($_FILES['foto']) ? ($_FILES['foto']) : null;
         
         try {
+            
+            $extFoto = null;
+            if ($foto != null && $foto['error']==UPLOAD_ERR_OK) {
+                $name_and_ext = explode('.', $foto['name']);
+                $extFoto = $name_and_ext[sizeof($name_and_ext)-1];
+                
+            }
+            
             $this->load->model('producto_model');
             $this->load->model('categoria_model');
             
@@ -30,12 +39,21 @@ class producto extends CI_Controller {
             if ($categoria == -1) {throw new Exception("Categoria no especificada");}
             
             try {
-                $this->producto_model->crearProducto($nombre, $stock, $precio, $this->categoria_model->getCategoriaById($categoria));
+               $id = $this->producto_model->crearProducto($nombre, $stock, $precio, $this->categoria_model->getCategoriaById($categoria), $extFoto);
                
             }
             catch (Exception $e) {
         
                 throw new Exception ("Producto ya existente");
+            }
+            
+            if ($extFoto != null) {
+                
+                $file_name = 'producto' . '-'. $id . '.'. $extFoto;
+                $carpeta = "assets/img/upload/producto/";
+                
+                copy($foto['tmp_name'], $carpeta . $file_name);
+                
             }
             
             PRG('Producto creado correctamente','producto/r','success');
@@ -65,7 +83,9 @@ class producto extends CI_Controller {
          }
          $id = isset($_GET['id']) ? $_GET['id'] : null;
          $this->load->model('producto_model');
+         $this->load->model('categoria_model');
          $data['producto'] = $this->producto_model->getProductoById($id);
+         $data['categorias'] = $this->categoria_model->getCategorias();
          frame($this, 'producto/u', $data);    
      }
      
@@ -75,12 +95,17 @@ class producto extends CI_Controller {
              PRG("Rol inadecuado");
          }
          $this->load->model('producto_model');
+         $this->load->model('categoria_model');
          
          $id = isset($_POST['id']) ? $_POST['id'] : null;
          $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
+         $precio = isset($_POST['precio']) ? $_POST['precio'] : null;
+         $stock = isset($_POST['stock']) ? $_POST['stock'] : null;
+         $categoria = isset($_POST['categoria']) ? $_POST['categoria'] : null;
+         
          
          try {
-             $this->producto_model->actualizarProducto($id, $nombre);
+             $this->producto_model->actualizarProducto($id, $nombre, $stock, $precio, $this->categoria_model->getCategoriaById($categoria));
              redirect(base_url() . 'producto/r');
          } catch (Exception $e) {
              session_start();
@@ -101,5 +126,30 @@ class producto extends CI_Controller {
          $this->producto_model->borrarProducto($id);
          redirect(base_url().'producto/r');
      }
+     
+     
+     //AJAX DEL BEAN "PRODUCTO"
+
+      public function cAJAX (){
+         
+          $data["nombreProducto"] = $_POST["nombreProducto"];
+        echo $this->toJSON($data["nombreProducto"]);
+             
+     }
+     
+     public function toJSON($nombre) {
+         $ok = [];
+         $this->load->model('producto_model');
+         if ($this->producto_model->buscarUno($nombre) != null ) {
+             $ok["coincide"] = 1;
+         }
+         else {
+             $ok["coincide"] = 0;
+         }
+         return json_encode($ok);
+         
+         
+     }
+          
 }
 ?>

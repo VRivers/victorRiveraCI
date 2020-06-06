@@ -2,7 +2,7 @@
 
 <h1>Listado de Usuarios</h1>
 
-<a href="<?=base_url()?>hdu/anonymous/registrar"><button>Nueva</button></a>
+<a href="<?=base_url()?>hdu/anonymous/registrar"><button>Nuevo</button></a>
 <a href="<?=base_url()?>"><button>Volver</button></a>
 <table class="table table-striped table-hover ">
 		<tr>
@@ -24,18 +24,17 @@
 		<td style="color:red;"><?= $persona->nace!=null?$persona->nace->nombre:'---'?></td>
 		<td style="color:red;">---</td>
 		<td style="color:red;">---</td>
-		<td style="color:red;">---
-		</td>
-		
+		<td style="color:red;">---</td>
 		<?php else:?>
 		
-		<?php if ($persona->extension_Foto != null):?>
-		<td><img src="<?=base_url()?>/assets/img/upload/persona/persona-<?=$persona->id?>.<?=$persona->extension_Foto?>" height="80"
-						width="80"></td>
-		<?php else:?>
-		<td><img src="<?=base_url()?>/assets/img/nopersona.png" height="80"
-						width="80"></td>
-		<?php endif;?>
+    		<?php if ($persona->extension_Foto != null):?>
+    		<td><img src="<?=base_url()?>/assets/img/upload/persona/persona-<?=$persona->id?>.<?=$persona->extension_Foto?>" height="80"
+    						width="80"></td>
+    		<?php else:?>
+    		<td><img src="<?=base_url()?>/assets/img/nopersona.png" height="80"
+    						width="80"></td>
+    		<?php endif;?>
+    	
 		<td><?= $persona->loginname?></td>
 		<td><?= $persona->nace!=null?$persona->nace->nombre:''?></td>
 		<td><?= $persona->fechaNacimiento?></td>
