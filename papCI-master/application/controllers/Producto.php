@@ -38,15 +38,15 @@ class producto extends CI_Controller {
             //TRATAMIENTO CATEGORIA
             if ($categoria == -1) {throw new Exception("Categoria no especificada");}
             
-            try {
-               $id = $this->producto_model->crearProducto($nombre, $stock, $precio, $this->categoria_model->getCategoriaById($categoria), $extFoto);
-               
-            }
-            catch (Exception $e) {
-        
-                throw new Exception ("Producto ya existente");
-            }
+                try {
+                   $id = $this->producto_model->crearProducto($nombre, $stock, $precio, $this->categoria_model->getCategoriaById($categoria), $extFoto);
+                   
+                }
+                catch (Exception $e) {
             
+                    throw new Exception ("Producto ya existente");
+                }
+                
             if ($extFoto != null) {
                 
                 $file_name = 'producto' . '-'. $id . '.'. $extFoto;

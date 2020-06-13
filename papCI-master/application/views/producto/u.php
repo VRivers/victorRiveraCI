@@ -1,7 +1,7 @@
 <div class="container">
 	<h1>Editar producto</h1>
 	
-	<a href="/producto/r">
+	<a href="<?=base_url()?>producto/r">
 		<button>Cancelar</button>
 	</a>
 	
@@ -23,7 +23,7 @@
     	<br>
     	
     	<label for="idp">Categoria</label>
-		<select id="id-producto" name="categoria">
+		<select id="id-categoria" name="categoria">
 		<option selected="selected" value="<?=$producto->categoria->id?>"><?=$producto->categoria->nombre?></option>
 		<?php foreach ($categorias as $categoria):?>
     		<?php if ($categoria->nombre != $producto->categoria->nombre) :?>

@@ -22,6 +22,7 @@
 				<td><?=$producto->nombre?></td>
 				<td><?=$producto->categoria->nombre?></td>
 				<td>
+						<?php if (sizeof($producto->ownLineaDeVentaList) == 0):?>
         				<form action="<?=base_url()?>producto/dPost" method="post">
         					<input type="hidden" name="id" value="<?=$producto->id?>">
         					<button onclick="submit()">
@@ -29,7 +30,8 @@
         							width="20">
         					</button>
         				</form>
-  
+  						<?php endif;?>
+  						
         				<form action="<?=base_url()?>producto/u" method="get">
         					<input type="hidden" name="id" value="<?=$producto->id?>">
         					<button onclick="submit()">
@@ -37,6 +39,7 @@
         							width="20">
         					</button>
         				</form>
+        				
 				</td>
 			</tr>
 			<?php endforeach;?>

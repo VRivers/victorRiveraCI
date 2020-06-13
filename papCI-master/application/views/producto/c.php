@@ -1,6 +1,6 @@
 <div class="container">
 	<h1>Nuevo producto</h1>
-	<a href="/producto/r">
+	<a href="<?=base_url()?>producto/r">
 		<button>Cancelar</button>
 	</a>
 

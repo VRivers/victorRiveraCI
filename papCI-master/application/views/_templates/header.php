@@ -1,6 +1,6 @@
 <div class="container">
-<?php if ($datosGenerales['persona']!=null):?>
-	Hola <?=$datosGenerales['persona']->loginname?> /
+<?php if ($datosGen['persona']!=null):?>
+	Hola <?=$datosGen['persona']->loginname?> /
 	<a href="<?=base_url()?>hdu/anonymous/logout">Salir</a>
 <?php else:?>
 	<a href="<?=base_url()?>hdu/anonymous/registrar">Registro</a> / 

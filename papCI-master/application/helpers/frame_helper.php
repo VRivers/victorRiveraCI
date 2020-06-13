@@ -5,7 +5,7 @@ function frame($controller,$view,$data=[]) {
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-    $data['datosGenerales']['persona'] = isset($_SESSION['persona'])?$_SESSION['persona']:null;
+    $data['datosGen']['persona'] = isset($_SESSION['persona'])?$_SESSION['persona']:null;
     
     $controller->load->view('_templates/header',$data);
     $controller->load->view('_templates/nav',$data);
